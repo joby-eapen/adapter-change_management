@@ -18,5 +18,12 @@
   "homepage": "https://github.com/joby-eapen/adapter-change_management#readme",
   "dependencies": {
     "request": "^2.88.2"
-  }
+  },
+  "keywords": [
+    "An",
+    "IAP",
+    "change",
+    "management",
+    "adapter."
+  ]
 }
