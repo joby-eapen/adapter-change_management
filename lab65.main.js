@@ -225,32 +225,7 @@ healthcheck(callback) {
      */
 
      //this.get(callback);
-     this.connector.get((returnedData,returnedError) => callback(returnedData,returnedError));
-     let returnedData = null;
-     let returnedError = null;
-     if (error) { 
-         returnedError = error;}
-     else {   
-        if (returnedData.body) {
-            let bodyAsObject = JSON.parse(returnedData.body);    
-            let resultArr = bodyAsObject.result;
-            let modifiedArr = [];
-            for (let i = 0; i < resultArr.length; i++) {
-                modifiedArr.push({
-                change_ticket_number: resultArr[i].number,
-                active: resultArr[i].active,
-                priority: resultArr[i].priority,
-                description: resultArr[i].description,
-                work_start: resultArr[i].work_start,
-                work_end: resultArr[i].work_end,
-                change_ticket_key: resultArr[i].sys_id
-            });
-            }
-        }
-        returnedData = modifiedArr;
-     }
-    
-    return callback(returnedData, returnedError);
+     this.connector.get((data,error) => callback(data,error));
   }
 
   /**
@@ -271,31 +246,8 @@ healthcheck(callback) {
      */
 
      //this.post(callback);
-     this.connector.post((returnedData,returnedError) => callback(returnedData,returnedError));
-     let returnedData = null;
-     let returnedError = null;
-     if (error) { 
-         returnedError = error;}
-     else {   
-            if (returnedData.body) {
-                let bodyAsObject = JSON.parse(returnedData.body);    
-                let resultArr = bodyAsObject.result;
-                let modifiedArr = [];
-                modifiedArr.push({
-                change_ticket_number: resultArr.number,
-                active: resultArr.active,
-                priority: resultArr.priority,
-                description: resultArr.description,
-                work_start: resultArr.work_start,
-                work_end: resultArr.work_end,
-                change_ticket_key: resultArr.sys_id  
-                });             
-                returnedData = modifiedArr[0];
-            }
-     }
-     return callback(returnedData, returnedError);
-     }
-
+     this.connector.post((data,error) => callback(data,error));
+  }
 }
 
 module.exports = ServiceNowAdapter;
