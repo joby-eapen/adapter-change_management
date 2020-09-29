@@ -61,6 +61,8 @@ class ServiceNowConnector {
     getCallOptions.method = 'GET';
     getCallOptions.query = 'sysparm_limit=1';
     this.sendRequest(getCallOptions, (results, error) => callback(results, error));
+
+    
   }
 
     /**

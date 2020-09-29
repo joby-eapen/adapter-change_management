@@ -224,33 +224,37 @@ healthcheck(callback) {
      * get() takes a callback function.
      */
 
-     //this.get(callback);
-     this.connector.get((returnedData,returnedError) => callback(returnedData,returnedError));
-     let returnedData = null;
-     let returnedError = null;
-     if (error) { 
-         returnedError = error;}
-     else {   
-        if (returnedData.body) {
-            let bodyAsObject = JSON.parse(returnedData.body);    
-            let resultArr = bodyAsObject.result;
-            let modifiedArr = [];
-            for (let i = 0; i < resultArr.length; i++) {
-                modifiedArr.push({
-                change_ticket_number: resultArr[i].number,
-                active: resultArr[i].active,
-                priority: resultArr[i].priority,
-                description: resultArr[i].description,
-                work_start: resultArr[i].work_start,
-                work_end: resultArr[i].work_end,
-                change_ticket_key: resultArr[i].sys_id
-            });
-            }
-        }
-        returnedData = modifiedArr;
-     }
-    
-    return callback(returnedData, returnedError);
+
+        this.connector.get((data,error) => {
+         let returnedData = null;
+         let returnedError = null;
+         if (error) {
+             returnedError = error;
+             log.error("GET request returned error: " + returnedError)
+         } else {
+             returnedData = data;
+             log.trace("GET Request returned " + JSON.stringify(returnedData));
+             if (returnedData.body) {
+                 let bodyAsObject = JSON.parse(returnedData.body);
+                 let resultArr = bodyAsObject.result;
+                 let modifiedArr = [];
+                 for (let i = 0; i < resultArr.length; i++) {
+                     modifiedArr.push({
+                         change_ticket_number: resultArr[i].number,
+                         active: resultArr[i].active,
+                         priority: resultArr[i].priority,
+                         description: resultArr[i].description,
+                         work_start: resultArr[i].work_start,
+                         work_end: resultArr[i].work_end,
+                         change_ticket_key: resultArr[i].sys_id
+                     });
+                 }
+                 returnedData = modifiedArr;
+             }
+         }
+         return callback(returnedData, returnedError);
+     });
+
   }
 
   /**
@@ -271,30 +275,36 @@ healthcheck(callback) {
      */
 
      //this.post(callback);
-     this.connector.post((returnedData,returnedError) => callback(returnedData,returnedError));
-     let returnedData = null;
-     let returnedError = null;
-     if (error) { 
-         returnedError = error;}
-     else {   
-            if (returnedData.body) {
-                let bodyAsObject = JSON.parse(returnedData.body);    
-                let resultArr = bodyAsObject.result;
-                let modifiedArr = [];
-                modifiedArr.push({
-                change_ticket_number: resultArr.number,
-                active: resultArr.active,
-                priority: resultArr.priority,
-                description: resultArr.description,
-                work_start: resultArr.work_start,
-                work_end: resultArr.work_end,
-                change_ticket_key: resultArr.sys_id  
-                });             
-                returnedData = modifiedArr[0];
-            }
-     }
-     return callback(returnedData, returnedError);
-     }
+     
+
+        this.connector.post((data,error) => {
+         let returnedData = null;
+         let returnedError = null;
+         if (error) {
+             returnedError = error;
+             log.error("POST request returned error: " + returnedError)
+         } else {
+             returnedData = data;
+             log.trace("POST Request returned " + JSON.stringify(returnedData));
+             if (returnedData.body) {
+                 let bodyAsObject = JSON.parse(returnedData.body);
+                 let resultObject = bodyAsObject.result;
+                 let modifiedObject = {
+                         change_ticket_number: resultObject.number,
+                         active: resultObject.active,
+                         priority: resultObject.priority,
+                         description: resultObject.description,
+                         work_start: resultObject.work_start,
+                         work_end: resultObject.work_end,
+                         change_ticket_key: resultObject.sys_id
+                     };
+                 
+                 returnedData = modifiedObject;
+             };
+         };
+         return callback(returnedData, returnedError);
+     });
+  }
 
 }
 
