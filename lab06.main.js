@@ -101,7 +101,7 @@ healthcheck(callback) {
     * or the instance was hibernating. You must write
     * the blocks for each branch.
     */
-   /*if (error) {
+   if (error) {
             console.error('Error present.');
             callback.error = error;
             this.emitOffline();
@@ -117,7 +117,7 @@ healthcheck(callback) {
             this.emitOnline();
             log.debug(this.id + " is fine");
             }
-        return callback(callback.data, callback.error);*/
+        return callback(callback.data, callback.error);
 
 
      /**
